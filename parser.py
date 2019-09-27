@@ -1,7 +1,7 @@
-import numpy as np
-import pandas as pd
+USER_1 = '../data/text_files/'
+USER_2 = '../data_2/text_files/'
+USER_3 = '../data_3/text_files/'
 
-DATA_PATH = ''
 
 def load_data():
     pass
