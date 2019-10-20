@@ -29,7 +29,7 @@ def ambientParser(client):
                 for line in in_file:
                     time, ign1, ign2, lumix, temp, ign3 = line.split(' ')
 
-                json_body.append({"measurement":"Ambient",
+                    json_body.append({"measurement":"Ambient",
                             "tags":{
                                 "user":user_id,
                                 "body part": body_part
@@ -41,6 +41,7 @@ def ambientParser(client):
                             })
             if not client.write_points(json_body):
                 print('Failed to write to database!')
+            json_body.clear() # don't forget to clear list for next file
 
 
 def batteryParser(client):
@@ -55,7 +56,7 @@ def batteryParser(client):
                 for line in in_file:
                     time,ign1,ign2,blevel,temp = line.split(' ')
 
-                json_body.append({"measurement":"battery",
+                    json_body.append({"measurement":"battery",
                                 "tags":{
                                     "user":1,
                                     "body part": body_part,
@@ -64,9 +65,10 @@ def batteryParser(client):
                                 "fields":{
                                     "battery level":blevel,
                                     "temperature":temp}
-                })
+                    })
             if not client.write_points(json_body):
                 print('Failed to write to database!')
+            json_body.clear()
 
 #tried labelstrack main
 # but not exactly sure how we store start/end run time in db. I just chose start with end as field

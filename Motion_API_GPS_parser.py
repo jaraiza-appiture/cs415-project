@@ -74,6 +74,7 @@ def MotionParser(client):
             # json body, may not have enough ram to hold all of data
             if not client.write_points(json_body):
                 print('Failed to write to database!')
+            json_body.clear()
 
 
 def APIParser(client):
@@ -99,30 +100,31 @@ def APIParser(client):
                     tilting_confidence = features[9]
                     unknown_confidence = features[10]
 
-                json_body.append({
-                    "measurement": "API",
-                    "tags": {
-                        "user": user_id,
-                        "body part": body_part
-                    },
-                    "time": ti,
-                    "fields": {
-                        "still confidence": still_confidence,
-                        "on foot confidence": on_foot_confidence,
-                        "walking confidence": walking_confidence,
-                        "running confidence": running_confidence,
-                        "on bicycle confidence": on_bicycle_confidence,
-                        "in vehicle confidence": in_vehicle_confidence,
-                        "tilting confidence": tilting_confidence,
-                        "unknown confidence": unknown_confidence
+                    json_body.append({
+                        "measurement": "API",
+                        "tags": {
+                            "user": user_id,
+                            "body part": body_part
+                        },
+                        "time": ti,
+                        "fields": {
+                            "still confidence": still_confidence,
+                            "on foot confidence": on_foot_confidence,
+                            "walking confidence": walking_confidence,
+                            "running confidence": running_confidence,
+                            "on bicycle confidence": on_bicycle_confidence,
+                            "in vehicle confidence": in_vehicle_confidence,
+                            "tilting confidence": tilting_confidence,
+                            "unknown confidence": unknown_confidence
+                        }
                     }
-                }
-                )
+                    )
 
             # write after each file is read. Don't wait till all files are put in
             # json body, may not have enough ram to hold all of data
             if not client.write_points(json_body):
                 print('Failed to write to database!')
+            json_body.clear()
 
 # this one handles variable length column data
 def GPSParser(client):
@@ -179,3 +181,4 @@ def GPSParser(client):
             # json body, may not have enough ram to hold all of data
             if not client.write_points(json_body):
                 print('Failed to write to database!')
+            json_body.clear()
