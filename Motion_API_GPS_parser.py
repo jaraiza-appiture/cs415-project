@@ -67,8 +67,7 @@ def MotionParser(client):
                         "altitude": alt,
                         "temp": temp
                     }
-                }
-                )
+                })
 
             # write after each file is read. Don't wait till all files are put in
             # json body, may not have enough ram to hold all of data
@@ -117,8 +116,7 @@ def APIParser(client):
                             "tilting confidence": tilting_confidence,
                             "unknown confidence": unknown_confidence
                         }
-                    }
-                    )
+                    })
 
             # write after each file is read. Don't wait till all files are put in
             # json body, may not have enough ram to hold all of data
@@ -154,9 +152,8 @@ def GPSParser(client):
                                 "azimuth": 0,
                                 "elevation": 0
                             }
-                        }
-                        )
-                    
+                        })
+
                     else:
                         # add all satellites found as separate data points at same time
                         rest_features = features[3:]
@@ -174,8 +171,7 @@ def GPSParser(client):
                                     "azimuth": rest_features[i+2],
                                     "elevation": rest_features[i+3]
                                 }
-                            }
-                            )
+                            })
 
             # write after each file is read. Don't wait till all files are put in
             # json body, may not have enough ram to hold all of data
