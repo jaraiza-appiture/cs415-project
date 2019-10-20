@@ -56,9 +56,9 @@ def batteryParser(client):
                 for line in in_file:
                     time,ign1,ign2,blevel,temp = line.split(' ')
 
-                    json_body.append({"measurement":"battery",
+                    json_body.append({"measurement":"Battery",
                                 "tags":{
-                                    "user":1,
+                                    "user":user_id,
                                     "body part": body_part,
                                 },
                                 "time":time,
