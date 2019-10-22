@@ -59,7 +59,7 @@ def batteryParser(client):
                     json_body.append({"measurement":"Battery",
                                 "tags":{
                                     "user":user_id,
-                                    "body part": body_part,
+                                    "body part": body_part
                                 },
                                 "time":time,
                                 "fields":{
