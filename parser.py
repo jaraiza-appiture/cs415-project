@@ -190,7 +190,6 @@ def labelParser(client):
                         "measurement":"Cell",
                         "tags": {
                             "user": user_id,
-                            "body part": body_part
                         },
                         "fields":x
                     })
