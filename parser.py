@@ -1,5 +1,3 @@
-#Kill me
-
 #Each of these parsers takes the open file and runs them through to get the data
 #They each return a list of dictionaries
 
@@ -182,19 +180,18 @@ def labelParser(client):
     json_body = []
     result = []
     for user_file, user_id in USERS:
-        for body_part_file in MOTION_BODY_PARTS:
-            with open(user_file + body_part_file, 'r') as inFile:
-                result = labelParse(inFile)
-                for x in result:
-                    time = x["Time"]
-                    del x["Time"]
-                    json_body.append({
-                        "measurement":"Cell",
-                        "tags": {
-                            "user": user_id,
-                        },
-                        "fields":x
-                    })
-            if not client.write_points(json_body):
-                print('Failed to write to database!')
-            json_body.clear()
+        with open(user_file + body_part_file, 'r') as inFile:
+            result = labelParse(inFile)
+            for x in result:
+                time = x["Time"]
+                del x["Time"]
+                json_body.append({
+                    "measurement":"Cell",
+                    "tags": {
+                        "user": user_id
+                    },
+                    "fields":x
+                })
+        if not client.write_points(json_body):
+            print('Failed to write to database!')
+        json_body.clear()
