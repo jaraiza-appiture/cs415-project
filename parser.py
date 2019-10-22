@@ -1,3 +1,5 @@
+#Kill me
+
 #Each of these parsers takes the open file and runs them through to get the data
 #They each return a list of dictionaries
 
