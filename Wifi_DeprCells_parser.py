@@ -93,7 +93,7 @@ def DeprCellsParser(client):
                             "lac": lac,
                             "dbm": dbm,
                             "mcc": mcc,
-                            "mns": mns,
+                            "mns": mns
                         }
                     })
 
