@@ -1,4 +1,4 @@
-from constants import USERS, AMBIENT_BODY_PARTS, BATTERY_BODY_PARTS, LOCATION_BODY_PARTS
+from constants import USERS, AMBIENT_BODY_PARTS, BATTERY_BODY_PARTS
 
 def ambientParser(client):
     json_body = []
@@ -76,35 +76,71 @@ def locationParser(client):
             if not client.write_points(json_body):
                 print('Failed to write to database!')
             json_body.clear()  # don't forget to clear list for next file
+#
+# def cellsParser():
+#     json_body = []
+#
+#     with open("Bag_Cells.txt", 'r') as in_file:
+#         for line in in_file:
+#             features = line.split(' ')
+#             time = features[0]
+#             ign1 = features[1]
+#             ign2 = features[2]
+#             num_entries = features[3]
+#             for i in range(int(num_entries)):
+#                 celltype = features[i+4]
+#                 if (celltype == 'LTE'):
+#                     for i in range(8):
+#                         signallevel = features[i+5]
+#                         signalstrength = features[i+6]
+#
+#                         pass
+#                 elif (celltype == 'GSM'):
+#                     for i in range(8):
+#                         pass
+#                 elif (celltype == 'WCDMA'):
+#                     for i in range(9):
+#                         pass
+#
+#             break
+#
+# cellsParser()
+# #LTE: 8
+# #GSM:7
+# #WCDMA:9
 
-def cellsParser():
+def labelParser(client):
     json_body = []
+    for user_file, user_id in USERS:
+        with open(user_file + "Label.txt", 'r') as in_file:
+            for line in in_file:
+                features = line.split(' ')
+                time = features[0]
+                coarse = features[1]
+                fine = features[2]
+                road = features[3]
+                traffic = features[4]
+                tunnel = features[5]
+                social = features[6]
+                food = features[7]
 
-    with open("Bag_Cells.txt", 'r') as in_file:
-        for line in in_file:
-            features = line.split(' ')
-            time = features[0]
-            ign1 = features[1]
-            ign2 = features[2]
-            num_entries = features[3]
-            for i in range(int(num_entries)):
-                celltype = features[i+4]
-                if (celltype == 'LTE'):
-                    for i in range(8):
-                        signallevel = features[i+5]
-                        signalstrength = features[i+6]
+                json_body.append({"measurement":"label",
+                                "tags":{
+                                    "user":user_id,
+                                },
+                                "time":time,
+                                "fields":{
+                                    "coarse":coarse,
+                                    "fine":fine,
+                                    "road":road,
+                                    "traffic": traffic,
+                                    "tunnel": tunnel,
+                                    "social": social,
+                                    "food":food
+                                }
+                })
 
-                        pass
-                elif (celltype == 'GSM'):
-                    for i in range(8):
-                        pass
-                elif (celltype == 'WCDMA'):
-                    for i in range(9):
-                        pass
+        if not client.write_points(json_body):
+            print('Failed to write to database!')
+        json_body.clear()  # don't forget to clear list for next file
 
-            break
-
-cellsParser()
-#LTE: 8
-#GSM:7
-#WCDMA:9
