@@ -1,4 +1,4 @@
-from constants import USERS, AMBIENT_BODY_PARTS, BATTERY_BODY_PARTS
+from constants import USERS, AMBIENT_BODY_PARTS, BATTERY_BODY_PARTS, LOCATION_BODY_PARTS
 
 def ambientParser(client):
     json_body = []
