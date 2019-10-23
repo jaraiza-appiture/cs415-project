@@ -126,7 +126,7 @@ def labelParser(client):
 
                 json_body.append({"measurement":"label",
                                 "tags":{
-                                    "user":user_id,
+                                    "user":user_id
                                 },
                                 "time":time,
                                 "fields":{
