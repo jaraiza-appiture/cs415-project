@@ -15,10 +15,10 @@ def AmbientParser(client):
                                     "user":user_id,
                                     "body part": body_part
                                 },
-                                "time": time,
+                                "time": int(time),
                                 "fields":{
-                                    "lumix":lumix,
-                                    "temperature":temp}
+                                    "lumix":int(lumix),
+                                    "temperature":int(temp)}
                                 })
             if not client.write_points(json_body, time_precision='ms'):
                 print('Failed to write to database!')
@@ -40,10 +40,10 @@ def BatteryParser(client):
                                         "user":user_id,
                                         "body part": body_part
                                     },
-                                    "time":time,
+                                    "time":int(time),
                                     "fields":{
-                                        "battery level":blevel,
-                                        "temperature":temp}
+                                        "battery level":int(blevel),
+                                        "temperature":int(temp)}
                     })
             if not client.write_points(json_body, time_precision='ms'):
                 print('Failed to write to database!')
@@ -64,12 +64,12 @@ def LocationParser(client):
                                         "user":user_id,
                                         "body part": body_part
                                     },
-                                    "time":time,
+                                    "time":int(time),
                                     "fields":{
-                                        "accuracy":accuracy,
-                                        "latitude":latitude,
-                                        "longitude":longitude,
-                                        "altitude":altitude
+                                        "accuracy":int(accuracy),
+                                        "latitude":float(latitude),
+                                        "longitude":float(longitude),
+                                        "altitude":float(altitude)
                                     }
                     })
 
@@ -128,15 +128,15 @@ def LabelParser(client):
                                 "tags":{
                                     "user":user_id
                                 },
-                                "time":time,
+                                "time":int(time),
                                 "fields":{
-                                    "coarse":coarse,
-                                    "fine":fine,
-                                    "road":road,
-                                    "traffic": traffic,
-                                    "tunnel": tunnel,
-                                    "social": social,
-                                    "food":food
+                                    "coarse":int(coarse),
+                                    "fine":int(fine),
+                                    "road":int(road),
+                                    "traffic": int(traffic),
+                                    "tunnel": int(tunnel),
+                                    "social": int(social),
+                                    "food":int(food)
                                 }
                 })
 

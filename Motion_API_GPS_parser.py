@@ -12,7 +12,12 @@ def MotionParser(client):
                     # some of the features may be NaN values
                     features = line.split(' ')
                     # time in ms
-                    ti = features[0]
+                    for i in range(1, len(features)):
+                        if 'NaN' in features[i]:
+                            features[i] = None
+                        else:
+                            features[i] = float(features[i])
+                    ti = int(features[0])
                     acX = features[1]
                     acY = features[2]
                     acZ = features[3]
@@ -88,6 +93,8 @@ def APIParser(client):
                     # some of the features may be NaN values
                     features = line.split(' ')
                     # time in ms
+                    for i in range(len(features)):
+                        features[i] = int(features[i])
                     ti = features[0]
                     # ignored 1 and 2, indicated by documentation
                     still_confidence = features[3]
@@ -137,23 +144,9 @@ def GPSParser(client):
                     # some of the features may be NaN values
                     features = line.split(' ')
                     # time in ms
-                    ti = features[0]
+                    ti = int(features[0])
                     if len(features) == 4: # no visible satellite found
-                        json_body.append({
-                            "measurement": "GPS",
-                            "tags": {
-                                "user": user_id,
-                                "body part": body_part
-                            },
-                            "time": ti,
-                            "fields": {
-                                "satellite id": 0,
-                                "snr": 0,
-                                "azimuth": 0,
-                                "elevation": 0
-                            }
-                        })
-
+                        continue
                     else:
                         # add all satellites found as separate data points at same time
                         rest_features = features[3:]
@@ -163,13 +156,13 @@ def GPSParser(client):
                                 "tags": {
                                     "user": user_id,
                                     "body part": body_part
+                                    "satellite id": rest_features[i]
                                 },
                                 "time": ti,
                                 "fields": {
-                                    "satellite id": rest_features[i],
-                                    "snr": rest_features[i+1],
-                                    "azimuth": rest_features[i+2],
-                                    "elevation": rest_features[i+3]
+                                    "snr": int(rest_features[i+1]),
+                                    "azimuth": int(rest_features[i+2]),
+                                    "elevation": int(rest_features[i+3])
                                 }
                             })
 
