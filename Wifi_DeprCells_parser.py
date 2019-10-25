@@ -52,7 +52,7 @@ def WifiParser(client):
                                 }
                             })
 
-            if not client.write_points(json_body):
+            if not client.write_points(json_body, time_precision='ms'):
                 print('Failed to write to database!')
 
             json_body.clear()
@@ -97,8 +97,6 @@ def DeprCellsParser(client):
                         }
                     })
 
-            if not client.write_points(json_body):
+            if not client.write_points(json_body, time_precision='ms'):
                 print('Failed to write to database!')
             json_body.clear()
-
-

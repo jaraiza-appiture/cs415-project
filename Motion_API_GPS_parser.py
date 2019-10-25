@@ -71,7 +71,7 @@ def MotionParser(client):
 
             # write after each file is read. Don't wait till all files are put in
             # json body, may not have enough ram to hold all of data
-            if not client.write_points(json_body):
+            if not client.write_points(json_body, time_precision='ms'):
                 print('Failed to write to database!')
             json_body.clear()
 
@@ -120,7 +120,7 @@ def APIParser(client):
 
             # write after each file is read. Don't wait till all files are put in
             # json body, may not have enough ram to hold all of data
-            if not client.write_points(json_body):
+            if not client.write_points(json_body, time_precision='ms'):
                 print('Failed to write to database!')
             json_body.clear()
 
@@ -175,6 +175,6 @@ def GPSParser(client):
 
             # write after each file is read. Don't wait till all files are put in
             # json body, may not have enough ram to hold all of data
-            if not client.write_points(json_body):
+            if not client.write_points(json_body, time_precision='ms'):
                 print('Failed to write to database!')
             json_body.clear()

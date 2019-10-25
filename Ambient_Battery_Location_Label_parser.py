@@ -1,6 +1,6 @@
-from constants import USERS, AMBIENT_BODY_PARTS, BATTERY_BODY_PARTS
+from constants import USERS, AMBIENT_BODY_PARTS, BATTERY_BODY_PARTS, LOCATION_BODY_PARTS
 
-def ambientParser(client):
+def AmbientParser(client):
     json_body = []
 
     for user_file, user_id in USERS:
@@ -20,12 +20,12 @@ def ambientParser(client):
                                     "lumix":lumix,
                                     "temperature":temp}
                                 })
-            if not client.write_points(json_body):
+            if not client.write_points(json_body, time_precision='ms'):
                 print('Failed to write to database!')
             json_body.clear()
 
 
-def batteryParser(client):
+def BatteryParser(client):
     json_body = []
 
     for user_file, user_id in USERS:
@@ -35,7 +35,7 @@ def batteryParser(client):
                 for line in in_file:
                     time,ign1,ign2,blevel,temp = line.split(' ')
 
-                    json_body.append({"measurement":"battery",
+                    json_body.append({"measurement":"Battery",
                                     "tags":{
                                         "user":user_id,
                                         "body part": body_part
@@ -45,11 +45,11 @@ def batteryParser(client):
                                         "battery level":blevel,
                                         "temperature":temp}
                     })
-            if not client.write_points(json_body):
+            if not client.write_points(json_body, time_precision='ms'):
                 print('Failed to write to database!')
             json_body.clear()
 
-def locationParser(client):
+def LocationParser(client):
     json_body = []
 
     for user_file, user_id in USERS:
@@ -59,7 +59,7 @@ def locationParser(client):
                 for line in in_file:
                     time,ign1,ign2,accuracy,latitude,longitude,altitude = line.split(' ')
 
-                    json_body.append({"measurement":"location",
+                    json_body.append({"measurement":"Location",
                                     "tags":{
                                         "user":user_id,
                                         "body part": body_part
@@ -73,7 +73,7 @@ def locationParser(client):
                                     }
                     })
 
-            if not client.write_points(json_body):
+            if not client.write_points(json_body, time_precision='ms'):
                 print('Failed to write to database!')
             json_body.clear()  # don't forget to clear list for next file
 #
@@ -109,7 +109,7 @@ def locationParser(client):
 # #GSM:7
 # #WCDMA:9
 
-def labelParser(client):
+def LabelParser(client):
     json_body = []
     for user_file, user_id in USERS:
         with open(user_file + "Label.txt", 'r') as in_file:
@@ -124,7 +124,7 @@ def labelParser(client):
                 social = features[6]
                 food = features[7]
 
-                json_body.append({"measurement":"label",
+                json_body.append({"measurement":"Label",
                                 "tags":{
                                     "user":user_id
                                 },
@@ -140,7 +140,6 @@ def labelParser(client):
                                 }
                 })
 
-        if not client.write_points(json_body):
+        if not client.write_points(json_body, time_precision='ms'):
             print('Failed to write to database!')
         json_body.clear()  # don't forget to clear list for next file
-
