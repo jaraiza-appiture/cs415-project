@@ -17,7 +17,8 @@ def MotionParser(client):
                             features[i] = None
                         else:
                             features[i] = float(features[i])
-                    ti = int(features[0])
+                    ti = features[0].split('.')[0]
+
                     acX = features[1]
                     acY = features[2]
                     acZ = features[3]
@@ -41,44 +42,46 @@ def MotionParser(client):
                     alt = features[21]
                     temp = features[22]
 
-                json_body.append({
-                    "measurement": "Motion",
-                    "tags": {
-                        "user": user_id,
-                        "body part": body_part # need to get specific body part data later
-                    },
-                    "time": ti,
-                    "fields": {
-                        "acceleration x": acX,
-                        "acceleration y": acY,
-                        "acceleration z": acZ,
-                        "gyroscope x": gyX,
-                        "gyroscope y": gyY,
-                        "gyroscope z": gyZ,
-                        "magnetomete x": mgX,
-                        "magnetomete y": mgY,
-                        "magnetomete z": mgZ,
-                        "orientation w": oriW,
-                        "orientation x": oriX,
-                        "orientation y": oriY,
-                        "orientation z": oriZ,
-                        "gravity x": gX,
-                        "gravity y": gY,
-                        "gravity z": gZ,
-                        "linear acceleration x": linX,
-                        "linear acceleration y": linY,
-                        "linear acceleration z": linZ,
-                        "pressure": pre,
-                        "altitude": alt,
-                        "temp": temp
-                    }
-                })
+                    json_body.append({
+                        "measurement": "Motion",
+                        "tags": {
+                            "user": user_id,
+                            "body part": body_part # need to get specific body part data later
+                        },
+                        "time": ti,
+                        "fields": {
+                            "acceleration x": acX,
+                            "acceleration y": acY,
+                            "acceleration z": acZ,
+                            "gyroscope x": gyX,
+                            "gyroscope y": gyY,
+                            "gyroscope z": gyZ,
+                            "magnetomete x": mgX,
+                            "magnetomete y": mgY,
+                            "magnetomete z": mgZ,
+                            "orientation w": oriW,
+                            "orientation x": oriX,
+                            "orientation y": oriY,
+                            "orientation z": oriZ,
+                            "gravity x": gX,
+                            "gravity y": gY,
+                            "gravity z": gZ,
+                            "linear acceleration x": linX,
+                            "linear acceleration y": linY,
+                            "linear acceleration z": linZ,
+                            "pressure": pre,
+                            "altitude": alt,
+                            "temp": temp
+                        }
+                    })
 
-            # write after each file is read. Don't wait till all files are put in
-            # json body, may not have enough ram to hold all of data
-            if not client.write_points(json_body, time_precision='ms'):
-                print('Failed to write to database!')
-            json_body.clear()
+                    # write after each file is read. Don't wait till all files are put in
+                    # json body, may not have enough ram to hold all of data
+                    if not client.write_points(json_body, time_precision='ms', batch_size=10000, protocol='json'):
+                        print('Failed to write to database!')
+                    else:
+                        print('Success Motion Parser')
+                    json_body.clear()
 
 
 def APIParser(client):
@@ -125,11 +128,11 @@ def APIParser(client):
                         }
                     })
 
-            # write after each file is read. Don't wait till all files are put in
-            # json body, may not have enough ram to hold all of data
-            if not client.write_points(json_body, time_precision='ms'):
-                print('Failed to write to database!')
-            json_body.clear()
+                    # write after each file is read. Don't wait till all files are put in
+                    # json body, may not have enough ram to hold all of data
+                    if not client.write_points(json_body, time_precision='ms'):
+                        print('Failed to write to database!')
+                    json_body.clear()
 
 # this one handles variable length column data
 def GPSParser(client):
@@ -155,7 +158,7 @@ def GPSParser(client):
                                 "measurement": "GPS",
                                 "tags": {
                                     "user": user_id,
-                                    "body part": body_part
+                                    "body part": body_part,
                                     "satellite id": rest_features[i]
                                 },
                                 "time": ti,
