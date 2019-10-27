@@ -14,7 +14,7 @@ def MotionParser(client):
                     # time in ms
                     for i in range(1, len(features)):
                         if 'NaN' in features[i]:
-                            features[i] = None
+                            features[i] = 0.0
                         else:
                             features[i] = float(features[i])
                     ti = features[0].split('.')[0]
@@ -48,7 +48,7 @@ def MotionParser(client):
                             "user": user_id,
                             "body part": body_part # need to get specific body part data later
                         },
-                        "time": ti,
+                        "time": int(ti),
                         "fields": {
                             "acceleration x": acX,
                             "acceleration y": acY,
@@ -77,10 +77,12 @@ def MotionParser(client):
 
                     # write after each file is read. Don't wait till all files are put in
                     # json body, may not have enough ram to hold all of data
+                    if len(json_body) < 1000000:
+                        continue
                     if not client.write_points(json_body, time_precision='ms', batch_size=10000, protocol='json'):
                         print('Failed to write to database!')
                     else:
-                        print('Success Motion Parser')
+                        pass
                     json_body.clear()
 
 
@@ -130,8 +132,12 @@ def APIParser(client):
 
                     # write after each file is read. Don't wait till all files are put in
                     # json body, may not have enough ram to hold all of data
-                    if not client.write_points(json_body, time_precision='ms'):
+                    if len(json_body) < 1000000:
+                        continue
+                    if not client.write_points(json_body, time_precision='ms', batch_size=10000, protocol='json'):
                         print('Failed to write to database!')
+                    else:
+                        pass
                     json_body.clear()
 
 # this one handles variable length column data
@@ -169,8 +175,12 @@ def GPSParser(client):
                                 }
                             })
 
-            # write after each file is read. Don't wait till all files are put in
-            # json body, may not have enough ram to hold all of data
-            if not client.write_points(json_body, time_precision='ms'):
-                print('Failed to write to database!')
-            json_body.clear()
+                    # write after each file is read. Don't wait till all files are put in
+                    # json body, may not have enough ram to hold all of data
+                    if len(json_body) < 1000000:
+                        continue
+                    if not client.write_points(json_body, time_precision='ms', batch_size=10000, protocol='json'):
+                        print('Failed to write to database!')
+                    else:
+                        pass
+                    json_body.clear()

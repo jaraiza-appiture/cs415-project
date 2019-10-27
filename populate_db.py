@@ -19,10 +19,10 @@ if __name__ == '__main__':
     # switch to database
     client.switch_database(DB_NAME)
     # populate database
-    print('Parsing Motion')
-    MotionParser(client)
-    # print('Parsing API')
-    # APIParser(client)
+    # print('Parsing Motion')
+    # MotionParser(client)
+    print('Parsing API')
+    APIParser(client)
     # print('Parsing GPS')
     # GPSParser(client)
     # print('Parsing WiFi')
