@@ -81,9 +81,10 @@ def MotionParser(client):
                         continue
                     if not client.write_points(json_body, time_precision='ms', batch_size=10000, protocol='json'):
                         print('Failed to write to database!')
-                    else:
-                        pass
                     json_body.clear()
+                if not client.write_points(json_body, time_precision='ms', batch_size=10000, protocol='json'):
+                    print('Failed to write to database!')
+                json_body.clear()
 
 
 def APIParser(client):
@@ -136,9 +137,10 @@ def APIParser(client):
                         continue
                     if not client.write_points(json_body, time_precision='ms', batch_size=10000, protocol='json'):
                         print('Failed to write to database!')
-                    else:
-                        pass
                     json_body.clear()
+                if not client.write_points(json_body, time_precision='ms', batch_size=10000, protocol='json'):
+                    print('Failed to write to database!')
+                json_body.clear()
 
 # this one handles variable length column data
 def GPSParser(client):
@@ -158,7 +160,7 @@ def GPSParser(client):
                         continue
                     else:
                         # add all satellites found as separate data points at same time
-                        rest_features = features[3:]
+                        rest_features = features[3:-1]
                         for i in range(0, len(rest_features), 4):
                             json_body.append({
                                 "measurement": "GPS",
@@ -169,9 +171,9 @@ def GPSParser(client):
                                 },
                                 "time": ti,
                                 "fields": {
-                                    "snr": int(rest_features[i+1]),
-                                    "azimuth": int(rest_features[i+2]),
-                                    "elevation": int(rest_features[i+3])
+                                    "snr": float(rest_features[i+1]),
+                                    "azimuth": float(rest_features[i+2]),
+                                    "elevation": float(rest_features[i+3])
                                 }
                             })
 
@@ -181,6 +183,7 @@ def GPSParser(client):
                         continue
                     if not client.write_points(json_body, time_precision='ms', batch_size=10000, protocol='json'):
                         print('Failed to write to database!')
-                    else:
-                        pass
                     json_body.clear()
+                if not client.write_points(json_body, time_precision='ms', batch_size=10000, protocol='json'):
+                    print('Failed to write to database!')
+                json_body.clear()

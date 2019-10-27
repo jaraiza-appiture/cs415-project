@@ -8,7 +8,7 @@ def AmbientParser(client):
             body_part = body_part_file.split('_')[0]
             with open(user_file + body_part_file, 'r') as in_file:
                 for line in in_file:
-                    time, ign1, ign2, lumix, temp, ign3 = line.split(' ')
+                    time, _, _, lumix, temp, _ = line.split(' ')
 
                     json_body.append({"measurement":"Ambient",
                                 "tags":{
@@ -20,9 +20,14 @@ def AmbientParser(client):
                                     "lumix":int(lumix),
                                     "temperature":int(temp)}
                                 })
-            if not client.write_points(json_body, time_precision='ms'):
-                print('Failed to write to database!')
-            json_body.clear()
+                    if len(json_body) < 1000000:
+                        continue
+                    if not client.write_points(json_body, time_precision='ms', batch_size=10000, protocol='json'):
+                        print('Failed to write to database!')
+                    json_body.clear()
+                if not client.write_points(json_body, time_precision='ms', batch_size=10000, protocol='json'):
+                    print('Failed to write to database!')
+                json_body.clear()
 
 
 def BatteryParser(client):
@@ -33,7 +38,7 @@ def BatteryParser(client):
             body_part = body_part_file.split('_')[0]
             with open(user_file + body_part_file, 'r') as in_file:
                 for line in in_file:
-                    time,ign1,ign2,blevel,temp = line.split(' ')
+                    time, _, _, blevel, temp = line.split(' ')
 
                     json_body.append({"measurement":"Battery",
                                     "tags":{
@@ -45,9 +50,14 @@ def BatteryParser(client):
                                         "battery level":int(blevel),
                                         "temperature":int(temp)}
                     })
-            if not client.write_points(json_body, time_precision='ms'):
-                print('Failed to write to database!')
-            json_body.clear()
+                    if len(json_body) < 1000000:
+                        continue
+                    if not client.write_points(json_body, time_precision='ms', batch_size=10000, protocol='json'):
+                        print('Failed to write to database!')
+                    json_body.clear()
+                if not client.write_points(json_body, time_precision='ms', batch_size=10000, protocol='json'):
+                    print('Failed to write to database!')
+                json_body.clear()
 
 def LocationParser(client):
     json_body = []
@@ -57,7 +67,7 @@ def LocationParser(client):
             body_part = body_part_file.split('_')[0]
             with open(user_file + body_part_file, 'r') as in_file:
                 for line in in_file:
-                    time,ign1,ign2,accuracy,latitude,longitude,altitude = line.split(' ')
+                    time, _, _, accuracy, latitude, longitude, altitude = line.split(' ')
 
                     json_body.append({"measurement":"Location",
                                     "tags":{
@@ -72,10 +82,14 @@ def LocationParser(client):
                                         "altitude":float(altitude)
                                     }
                     })
-
-            if not client.write_points(json_body, time_precision='ms'):
-                print('Failed to write to database!')
-            json_body.clear()  # don't forget to clear list for next file
+                    if len(json_body) < 1000000:
+                        continue
+                    if not client.write_points(json_body, time_precision='ms', batch_size=10000, protocol='json'):
+                        print('Failed to write to database!')
+                    json_body.clear()
+                if not client.write_points(json_body, time_precision='ms', batch_size=10000, protocol='json'):
+                    print('Failed to write to database!')
+                json_body.clear()
 #
 # def cellsParser():
 #     json_body = []
@@ -140,6 +154,11 @@ def LabelParser(client):
                                 }
                 })
 
-        if not client.write_points(json_body, time_precision='ms'):
-            print('Failed to write to database!')
-        json_body.clear()  # don't forget to clear list for next file
+                if len(json_body) < 1000000:
+                        continue
+                if not client.write_points(json_body, time_precision='ms', batch_size=10000, protocol='json'):
+                    print('Failed to write to database!')
+                json_body.clear()
+            if not client.write_points(json_body, time_precision='ms', batch_size=10000, protocol='json'):
+                print('Failed to write to database!')
+            json_body.clear()

@@ -15,5 +15,5 @@ AMBIENT_BODY_PARTS = ['Bag_Ambient.txt', 'Hand_Ambient.txt', 'Hips_Ambient.txt',
 LOCATION_BODY_PARTS = ['Bag_Location.txt', 'Hand_Location.txt', 'Hips_Location.txt', 'Torso_Location.txt']
 CELL_BODY_PARTS = ['Bag_Cell.txt', 'Hand_Cell.txt', 'Hips_Cell.txt', 'Torso_Cell.txt']
 LABEL = 'Label.txt' #all the other label files like labels_track_food.txt don't seem to have a real purpose
-WIFI_BODY_PARTS = ['Bag_Wifi.txt', 'Hand_Wifi.txt', 'Hips_Wifi.txt', 'Torso_Wifi.txt']
+WIFI_BODY_PARTS = ['Bag_WiFi.txt', 'Hand_WiFi.txt', 'Hips_WiFi.txt', 'Torso_WiFi.txt']
 DEPRCELLS_BODY_PARTS = ['Bag_DeprCells.txt', 'Hand_DeprCells.txt', 'Hips_DeprCells.txt', 'Torso_DeprCells.txt']

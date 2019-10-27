@@ -22,7 +22,7 @@ def WifiParser(client):
                         rest_features = features[4:]
                         for i in range(0, len(rest_features), 5):
                             json_body.append({
-                                "measurement": "Wifi",
+                                "measurement": "WiFi",
                                 "tags": {
                                     "user": user_id,
                                     "body part": body_part,
@@ -37,11 +37,14 @@ def WifiParser(client):
                                 }
                             })
 
-            if not client.write_points(json_body, time_precision='ms'):
-                print('Failed to write to database!')
-
-            json_body.clear()
-
+                    if len(json_body) < 1000000:
+                        continue
+                    if not client.write_points(json_body, time_precision='ms', batch_size=10000, protocol='json'):
+                        print('Failed to write to database!')
+                    json_body.clear()
+                if not client.write_points(json_body, time_precision='ms', batch_size=10000, protocol='json'):
+                    print('Failed to write to database!')
+                json_body.clear()
 
 
 def DeprCellsParser(client):
@@ -58,7 +61,7 @@ def DeprCellsParser(client):
                     # time in ms
                     ti = int(features[0])
                     # ignore 1 and 2
-                    if len(features) > 3:
+                    if len(features) > 4:
                         network_type = features[3]
                         cid = features[4]
                         lac = features[5]
@@ -83,6 +86,11 @@ def DeprCellsParser(client):
                             }
                         })
 
-            if not client.write_points(json_body, time_precision='ms'):
-                print('Failed to write to database!')
-            json_body.clear()
+                    if len(json_body) < 1000000:
+                        continue
+                    if not client.write_points(json_body, time_precision='ms', batch_size=10000, protocol='json'):
+                        print('Failed to write to database!')
+                    json_body.clear()
+                if not client.write_points(json_body, time_precision='ms', batch_size=10000, protocol='json'):
+                    print('Failed to write to database!')
+                json_body.clear()
