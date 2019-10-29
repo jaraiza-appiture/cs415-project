@@ -17,8 +17,8 @@ def AmbientParser(client):
                                 },
                                 "time": int(time),
                                 "fields":{
-                                    "lumix":int(lumix),
-                                    "temperature":int(temp)}
+                                    "lumix":int(lumix.split('.')[0]),
+                                    "temperature":int(temp.split('.')[0])}
                                 })
                     if len(json_body) < 1000000:
                         continue
@@ -48,7 +48,7 @@ def BatteryParser(client):
                                     "time":int(time),
                                     "fields":{
                                         "battery level":int(blevel),
-                                        "temperature":int(temp)}
+                                        "temperature":int(temp.split('.')[0])}
                     })
                     if len(json_body) < 1000000:
                         continue
@@ -76,7 +76,7 @@ def LocationParser(client):
                                     },
                                     "time":int(time),
                                     "fields":{
-                                        "accuracy":int(accuracy),
+                                        "accuracy":int(accuracy.split('.')[0]),
                                         "latitude":float(latitude),
                                         "longitude":float(longitude),
                                         "altitude":float(altitude)

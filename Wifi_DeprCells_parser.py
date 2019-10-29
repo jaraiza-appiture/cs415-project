@@ -63,11 +63,11 @@ def DeprCellsParser(client):
                     # ignore 1 and 2
                     if len(features) > 4:
                         network_type = features[3]
-                        cid = features[4]
-                        lac = features[5]
-                        dbm = features[6]
-                        mcc = features[7]
-                        mns = features[8]
+                        cid = 0 if 'NaN' in features[4] else features[4]
+                        lac = 0 if 'NaN' in features[5] else features[5]
+                        dbm = 0 if 'NaN' in features[6] else features[6]
+                        mcc = 0 if 'NaN' in features[7] else features[7]
+                        mns = 0 if 'NaN' in features[8] else features[8]
 
                         json_body.append({
                             "measurement": "DeprCells",
