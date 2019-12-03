@@ -15,7 +15,7 @@ if __name__ == '__main__':
         print('Creating')
         client.create_database(DB_NAME)
 
-    switch to database
+    # switch to database
     client.switch_database(DB_NAME)
     
     # populate database
