@@ -1,3 +1,5 @@
+# https://machinelearningmastery.com/how-to-develop-rnn-models-for-human-activity-recognition-time-series-classification/
+
 from numpy import mean
 from numpy import std
 from numpy import dstack
