@@ -31,9 +31,9 @@ LABELS = [
     "LAYING"
 ]
 
-DATA_PATH = "data/"
+DATA_PATH = "activity_analyzer/"
 
-DATASET_PATH = DATA_PATH + "UCI_HAR_Dataset/"
+DATASET_PATH = DATA_PATH + "HARDataset/"
 print("\n" + "Dataset is now located at: " + DATASET_PATH)
 
 TRAIN = "train/"
