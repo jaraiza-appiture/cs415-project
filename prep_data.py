@@ -19,11 +19,19 @@ def load_data(client_db):
     # query_str = 'SELECT coarse '
     # query_str += "FROM Label WHERE time >= '2017-07-03 09:30:00' and time <= '2017-07-03 09:30:02' "
     # query_str += 'GROUP BY "user"'
+    
+    
+    # TODO PLAN:
+    #       Will select for each label, from each label, gets points specific to user, then query for features given time and user
+    #       maybe include linear acceleration as 3 feature set..
+    
+    # STILL
+    # GET BODY PART FROM MOTION TABLE, NOT LABEL
     query_str = 'SELECT coarse '
-    query_str += "FROM Label WHERE coarse=1 "
+    query_str += 'FROM Label WHERE "coarse" = 1 ' #and "body part" = \'Bag\' '
     query_str += 'GROUP BY "user"'
     results = client_db.query(query_str)
-    # print(results.raw)
+
     points_u1 = results.get_points(tags={'user': '1'})
     points_u2 = results.get_points(tags={'user': '2'})
     points_u3 = results.get_points(tags={'user': '3'})
