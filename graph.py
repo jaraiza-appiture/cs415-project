@@ -31,11 +31,11 @@ def filterData(filter):
                 del foundList[lib]
 
     for lib in foundList:
-        frequency.append(lib['fields'][filter['parameter name']])
+        frequency.append(lib['fields'][filter['frequency']])
         frequency.append(lib['time'])
 
     #load array of xVal into xAxis, do the same for yAxis
-    createGraph(frequency, time, filter['parameter name'])
+    createGraph(frequency, time, filter['frequency])
 
 def createGraph(frequency, time, paramName):
     #frequency is array of all the values
