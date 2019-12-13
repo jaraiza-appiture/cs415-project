@@ -1,7 +1,10 @@
+# Reference: https://github.com/guillaume-chevalier/LSTM-Human-Activity-Recognition
+# Code based on repo above, modified to work with our data
+
 import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
-import tensorflow as tf  # Version 1.0.0 (some previous versions are used in past commits)
+import tensorflow as tf
 from sklearn import metrics
 from prep_data import load_data
 import os
@@ -118,7 +121,7 @@ def run_training_testing(X_train, X_test, y_train, y_test):
     print("Some useful info to get an insight on dataset's shape and normalisation:")
     print("(X shape, y shape, every X's mean, every X's standard deviation)")
     print(X_test.shape, y_test.shape, np.mean(X_test), np.std(X_test))
-    print("The dataset is therefore properly normalised, as expected, but not yet one-hot encoded.")
+    print("The dataset is therefore properly normalized, as expected, but not yet one-hot encoded.")
 
 
     # Graph input/output
@@ -230,21 +233,21 @@ def run_training_testing(X_train, X_test, y_train, y_test):
     plt.figure(figsize=(width, height))
 
     indep_train_axis = np.array(range(batch_size, (len(train_losses)+1)*batch_size, batch_size))
-    plt.plot(indep_train_axis, np.array(train_losses),     "b--", label="Train losses")
-    plt.plot(indep_train_axis, np.array(train_accuracies), "g--", label="Train accuracies")
+    plt.plot(indep_train_axis, np.array(train_losses),     "b--", label="train losses")
+    plt.plot(indep_train_axis, np.array(train_accuracies), "g--", label="train accuracies")
 
     indep_test_axis = np.append(
         np.array(range(batch_size, len(test_losses)*display_iter, display_iter)[:-1]),
         [training_iters]
     )
-    plt.plot(indep_test_axis, np.array(test_losses),     "b-", label="Test losses")
-    plt.plot(indep_test_axis, np.array(test_accuracies), "g-", label="Test accuracies")
+    plt.plot(indep_test_axis, np.array(test_losses),     "b-", label="test losses")
+    plt.plot(indep_test_axis, np.array(test_accuracies), "g-", label="test accuracies")
 
-    plt.title("Training session's progress over iterations")
+    plt.title("Loss & Accuracy vs Epochs")
     plt.legend(loc='upper right', shadow=True)
-    plt.ylabel('Training Progress (Loss or Accuracy values)')
+    plt.ylabel('Loss & Accuracy)')
     plt.xlabel('Training iteration')
-
+    plt.savefig('./training_results.png')
     plt.show()
 
     # Results
@@ -262,11 +265,11 @@ def run_training_testing(X_train, X_test, y_train, y_test):
     print("Confusion Matrix:")
     confusion_matrix = metrics.confusion_matrix(y_test, predictions)
     print(confusion_matrix)
-    normalised_confusion_matrix = np.array(confusion_matrix, dtype=np.float32)/np.sum(confusion_matrix)*100
+    normalized_confusion_matrix = np.array(confusion_matrix, dtype=np.float32)/np.sum(confusion_matrix)*100
 
     print("")
-    print("Confusion matrix (normalised to % of total test data):")
-    print(normalised_confusion_matrix)
+    print("Confusion matrix (normalized to % of total test data):")
+    print(normalized_confusion_matrix)
     print("Note: training and testing data is not equally distributed amongst classes, ")
     print("so it is normal that more than a 6th of the data is correctly classifier in the last category.")
 
@@ -275,11 +278,11 @@ def run_training_testing(X_train, X_test, y_train, y_test):
     height = 12
     plt.figure(figsize=(width, height))
     plt.imshow(
-        normalised_confusion_matrix,
+        normalized_confusion_matrix,
         interpolation='nearest',
         cmap=plt.cm.rainbow
     )
-    plt.title("Confusion matrix \n(normalised to % of total test data)")
+    plt.title("Confusion matrix \n(normalized to % of total test data)")
     plt.colorbar()
     tick_marks = np.arange(N_CLASSES)
     plt.xticks(tick_marks, LABELS, rotation=90)
@@ -287,6 +290,7 @@ def run_training_testing(X_train, X_test, y_train, y_test):
     plt.tight_layout()
     plt.ylabel('True label')
     plt.xlabel('Predicted label')
+    plt.savefig("./Confusion_mat.png")
     plt.show()
 
 if __name__ == '__main__':
