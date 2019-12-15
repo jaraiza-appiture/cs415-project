@@ -1,3 +1,5 @@
+# Author: Jovan Araiza
+
 from constants import USERS, MOTION_BODY_PARTS, API_BODY_PARTS, GPS_BODY_PARTS, CELL_BODY_PARTS
 
 def MotionParser(client):

@@ -1,4 +1,5 @@
-# will be putting loading code here
+# Author: Jovan Araiza
+
 from influxdb import InfluxDBClient
 import numpy as np
 import random

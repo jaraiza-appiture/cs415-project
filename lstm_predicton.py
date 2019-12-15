@@ -1,5 +1,6 @@
 # Reference: https://github.com/guillaume-chevalier/LSTM-Human-Activity-Recognition
 # Code based on repo above, modified to work with our data
+# Modified by: Jovan Araiza
 
 import numpy as np
 import matplotlib
